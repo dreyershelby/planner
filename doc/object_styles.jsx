@@ -5,13 +5,9 @@ var doc = app.activeDocument;
 
 const txt_box_dimensions = 1; // 1p0
 
-var to_clear   = null;
-var properties = null;
-
-if ((to_clear = doc.objectStyles.itemByName("base")) != null)
-  to_clear.remove();
-
-properties = {
+var base = ( doc.objectStyles.itemByName("base")
+             || doc.objectStyles.add() );
+base.properties = {
   name : "base",
 
   enableFill                    : true,
@@ -28,12 +24,10 @@ properties = {
   topLeftCornerOption  : CornerOptions.NONE,
   topRightCornerOption : CornerOptions.NONE
 };
-var base = doc.objectStyles.add(properties);
 
-if ((to_clear = doc.objectStyles.itemByName("pg-num")) != null)
-  to_clear.remove();
-
-properties = {
+var pg_num = ( doc.objectStyles.itemByName("pg_num")
+               || doc.objectStyles.add() );
+pg_num.properties = {
   name : "pg-num",
   basedOn : base,
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal-nobind"),
@@ -41,12 +35,10 @@ properties = {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN
   }
 };
-var pg_num = doc.objectStyles.add(properties);
 
-if ((to_clear = doc.objectStyles.itemByName("week-num")) != null)
-  to_clear.remove();
-
-properties = {
+var week_num = ( doc.objectStyles.itemByName("week_num")
+                 || doc.objectStyles.add() );
+week_num.properties = {
   name : "week-num",
   basedOn : base,
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal-bind"),
@@ -54,12 +46,10 @@ properties = {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
-var week_num = doc.objectStyles.add(properties);
 
-if ((to_clear = doc.objectStyles.itemByName("date-range")) != null)
-  to_clear.remove();
-
-properties = {
+var date_range = ( doc.objectStyles.itemByName("date_range")
+                   || doc.objectStyles.add() );
+date_range.properties = {
   name : "date-range",
   basedOn : base,
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal-nobind"),
@@ -67,12 +57,10 @@ properties = {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
-var date_range = doc.objectStyles.add(properties);
 
-if ((to_clear = doc.objectStyles.itemByName("calendar-heading")) != null)
-  to_clear.remove();
-
-properties = {
+var calendar_heading = ( doc.objectStyles.itemByName("calendar_heading")
+                         || doc.objectStyles.add() );
+calendar_heading.properties = {
   name : "calendar-heading",
   basedOn : base,
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj-heading"),
@@ -81,4 +69,3 @@ properties = {
     insetSpacing : 0.05 * txt_box_dimensions
   }
 }
-var calendar_heading = doc.objectStyles.add(properties);

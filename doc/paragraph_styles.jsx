@@ -4,9 +4,6 @@ $.writeln("doc/paragraph_styles.jsx depends on\r",
 font = app.fonts[647]; // San Francisco Text  Regular
 var doc = app.activeDocument;
 
-var to_clear = null;
-var properties = null;
-
 var body = ( doc.paragraphStyles.itemByName("body")
              || doc.paragraphStyles.add() );
 body.properties = {
