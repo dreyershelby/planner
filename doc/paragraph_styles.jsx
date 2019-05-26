@@ -4,63 +4,66 @@ $.writeln("doc/paragraph_styles.jsx depends on\r",
 font = app.fonts[647]; // San Francisco Text  Regular
 var doc = app.activeDocument;
 
-var style    = null;
-var body     = null;
 var to_clear = null;
+var properties = null;
 
-if ((to_clear = doc.paragraphStyles.itemByName("body")) != null) {
-  to_clear.remove();
-}
+var body = ( doc.paragraphStyles.itemByName("body")
+             || doc.paragraphStyles.add() );
+body.properties = {
+  name          : "body",
+  appliedFont   : font,
+  fillColor     : doc.colors.itemByName("smoky-black"),
+  justification : Justification.LEFT_ALIGN,
+  pointSize     : 9,
+  tracking      : -30
+};
 
-body = doc.paragraphStyles.add({ name : "body" });
-body.appliedFont   = font;
-body.fillColor     = doc.colors.itemByName("smoky-black");
-body.justification = Justification.LEFT_ALIGN;
-body.pointSize     = 9;
-body.tracking      = -30;
+var obj = ( doc.paragraphStyles.itemByName("obj")
+            || doc.paragraphStyles.add() );
+obj.properties = {
+  name          : "obj",
+  basedOn       : body,
+  justification : Justification.CENTER_ALIGN,
+  pointSize     : 8
+};
 
-if ((to_clear = doc.paragraphStyles.itemByName("obj"))
-    != null) { to_clear.remove(); }
+var body-heading = ( doc.paragraphStyles.itemByName("body-heading")
+                     || doc.paragraphStyles.add() );
+body-heading.properties = {
+  name      : "body-heading",
+  basedOn   : body,
+  fontStyle : "Semibold"
+};
 
-style = doc.paragraphStyles.add({ name : "obj" });
-style.basedOn       = body;
-style.justification = Justification.CENTER_ALIGN;
-style.pointSize     = 8;
-base = style; // for obj-heading later on
+var obj-heading = ( doc.paragraphStyles.itemByName("obj-heading")
+                    || doc.paragraphStyles.add() );
+obj-heading.properties = {
+  name      : "obj-heading",
+  basedOn   : obj,
+  fontStyle : "Semibold"
+};
 
-if ((to_clear = doc.paragraphStyles.itemByName("body-heading"))
-    != null) { to_clear.remove(); }
+var marginals = ( doc.paragraphStyles.itemByName("marginals")
+                  || doc.paragraphStyles.add() );
+marginals.properties = {
+  name      : "marginals",
+  basedOn   : body,
+  fillTint  : 15,
+  pointSize : 8
+};
 
-style = doc.paragraphStyles.add({ name : "body-heading" });
-style.basedOn   = body;
-style.fontStyle = "Semibold";
+var marginal-bind = ( doc.paragraphStyles.itemByName("marginal-bind")
+                      || doc.paragraphStyles.add() );
+marginal-bind.properties = {
+  name          : "marginal-bind",
+  basedOn       : marginals,
+  justification : Justification.TO_BINDING_SIDE
+};
 
-if ((to_clear = doc.paragraphStyles.itemByName("obj-heading"))
-    != null) { to_clear.remove(); }
-
-style = doc.paragraphStyles.add({ name : "obj-heading" });
-style.basedOn       = base; // obj
-style.fontStyle     = "Semibold";
-
-if ((to_clear = doc.paragraphStyles.itemByName("marginals"))
-    != null) { to_clear.remove(); }
-
-style = doc.paragraphStyles.add({ name : "marginals" });
-style.basedOn   = body;
-style.fillTint  = 15;
-style.pointSize = 8;
-
-if ((to_clear = doc.paragraphStyles.itemByName("marginal-bind"))
-    != null) { to_clear.remove(); }
-
-base  = style;
-style = doc.paragraphStyles.add({ name : "marginal-bind" });
-style.basedOn = base; // marginals
-style.justification = Justification.TO_BINDING_SIDE;
-
-if ((to_clear = doc.paragraphStyles.itemByName("marginal-nobind"))
-    != null) { to_clear.remove(); }
-
-style = doc.paragraphStyles.add({ name : "marginal-nobind" });
-style.basedOn = base; // marginals
-style.justification = Justification.AWAY_FROM_BINDING_SIDE;
+var marginal-nobind = ( doc.paragraphStyles.itemByName("marginal-nobind")
+                        || doc.paragraphStyles.add() );
+marginal-nobind.properties = {
+  name          : "marginal-nobind",
+  basedOn       : marginals,
+  justification : Justification.AWAY_FROM_BINDING_SIDE
+};
