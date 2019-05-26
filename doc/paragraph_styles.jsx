@@ -9,7 +9,7 @@ var body = ( doc.paragraphStyles.itemByName("body")
 body.properties = {
   name          : "body",
   appliedFont   : font,
-  fillColor     : doc.colors.itemByName("smoky-black"),
+  fillColor     : doc.colors.itemByName("smoky_black"),
   justification : Justification.LEFT_ALIGN,
   pointSize     : 9,
   tracking      : -30
@@ -24,18 +24,18 @@ obj.properties = {
   pointSize     : 8
 };
 
-var body-heading = ( doc.paragraphStyles.itemByName("body-heading")
+var body_heading = ( doc.paragraphStyles.itemByName("body_heading")
                      || doc.paragraphStyles.add() );
-body-heading.properties = {
-  name      : "body-heading",
+body_heading.properties = {
+  name      : "body_heading",
   basedOn   : body,
   fontStyle : "Semibold"
 };
 
-var obj-heading = ( doc.paragraphStyles.itemByName("obj-heading")
+var obj_heading = ( doc.paragraphStyles.itemByName("obj_heading")
                     || doc.paragraphStyles.add() );
-obj-heading.properties = {
-  name      : "obj-heading",
+obj_heading.properties = {
+  name      : "obj_heading",
   basedOn   : obj,
   fontStyle : "Semibold"
 };
@@ -49,18 +49,18 @@ marginals.properties = {
   pointSize : 8
 };
 
-var marginal-bind = ( doc.paragraphStyles.itemByName("marginal-bind")
+var marginal_bind = ( doc.paragraphStyles.itemByName("marginal_bind")
                       || doc.paragraphStyles.add() );
-marginal-bind.properties = {
-  name          : "marginal-bind",
+marginal_bind.properties = {
+  name          : "marginal_bind",
   basedOn       : marginals,
   justification : Justification.TO_BINDING_SIDE
 };
 
-var marginal-nobind = ( doc.paragraphStyles.itemByName("marginal-nobind")
+var marginal_nobind = ( doc.paragraphStyles.itemByName("marginal_nobind")
                         || doc.paragraphStyles.add() );
-marginal-nobind.properties = {
-  name          : "marginal-nobind",
+marginal_nobind.properties = {
+  name          : "marginal_nobind",
   basedOn       : marginals,
   justification : Justification.AWAY_FROM_BINDING_SIDE
 };

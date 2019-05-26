@@ -36,10 +36,10 @@ const top_hole = (pg.side == PageSideOptions.LEFT_HAND) ?
 var hole = pg.ovals.add({
   itemLayer       : doc.layers.itemByName("holes"),
   geometricBounds : top_hole,
-  strokeColor     : doc.colors.itemByName("smoky-black"),
+  strokeColor     : doc.colors.itemByName("smoky_black"),
   strokeTint      : 15,
   strokeWeight    : 1,
-  fillColor       : doc.colors.itemByName("melon-pink"),
+  fillColor       : doc.colors.itemByName("melon_pink"),
   fillTint        : 15,
   name            : "hole"
 });

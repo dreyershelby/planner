@@ -48,14 +48,14 @@ function add_to(pg) {
   const week_str = "week " + week_num_in_year();
   var week_box = pg.textFrames.add({
     itemLayer          : doc.layers.itemByName("marginals"),
-    appliedObjectStyle : doc.objectStyles.itemByName("week-num"),
+    appliedObjectStyle : doc.objectStyles.itemByName("week_num"),
     contents           : week_str
   })
 
   const date_range_str = week_dates();
   var date_range_box = pg.textFrames.add({
     itemLayer          : doc.layers.itemByName("marginals"),
-    appliedObjectStyle : doc.objectStyles.itemByName("date-range"),
+    appliedObjectStyle : doc.objectStyles.itemByName("date_range"),
     contents           : date_range_str,
   })
 

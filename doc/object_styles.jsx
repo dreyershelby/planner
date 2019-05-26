@@ -28,9 +28,9 @@ base.properties = {
 var pg_num = ( doc.objectStyles.itemByName("pg_num")
                || doc.objectStyles.add() );
 pg_num.properties = {
-  name : "pg-num",
+  name : "pg_num",
   basedOn : base,
-  appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal-nobind"),
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_nobind"),
   textFramePreferences : {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN
   }
@@ -39,9 +39,9 @@ pg_num.properties = {
 var week_num = ( doc.objectStyles.itemByName("week_num")
                  || doc.objectStyles.add() );
 week_num.properties = {
-  name : "week-num",
+  name : "week_num",
   basedOn : base,
-  appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal-bind"),
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_bind"),
   textFramePreferences : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
@@ -50,9 +50,9 @@ week_num.properties = {
 var date_range = ( doc.objectStyles.itemByName("date_range")
                    || doc.objectStyles.add() );
 date_range.properties = {
-  name : "date-range",
+  name : "date_range",
   basedOn : base,
-  appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal-nobind"),
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_nobind"),
   textFramePreferences : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
@@ -61,9 +61,9 @@ date_range.properties = {
 var calendar_heading = ( doc.objectStyles.itemByName("calendar_heading")
                          || doc.objectStyles.add() );
 calendar_heading.properties = {
-  name : "calendar-heading",
+  name : "calendar_heading",
   basedOn : base,
-  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj-heading"),
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
   textFramePreferences : {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN,
     insetSpacing : 0.05 * txt_box_dimensions

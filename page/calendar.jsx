@@ -61,7 +61,7 @@ if (/* TODO calendar doesn't exist */ true) {
 
   var heading_box = pg.textFrames.add({
     itemLayer          : doc.layers.itemByName("calendar"),
-    appliedObjectStyle : doc.objectStyles.itemByName("calendar-heading"),
+    appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
     geometricBounds    : [ y1, x1, y2, x2 ],
     contents           : month(today.getMonth())
   });
@@ -77,12 +77,12 @@ if (/* TODO calendar doesn't exist */ true) {
   for (var day = 0; day < 7; day++) {
     day_box = pg.textFrames.add({
       itemLayer          : doc.layers.itemByName("calendar"),
-      appliedObjectStyle : doc.objectStyles.itemByName("calendar-heading"),
+      appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
       geometricBounds    : [y1, x1, y2, x2],
       contents           : days[day]
     });
     day_box.paragraphs.item(0).applyParagraphStyle(
-                             doc.paragraphStyles.itemByName("obj-heading"));
+                             doc.paragraphStyles.itemByName("obj_heading"));
 
     x1 += txt_box_dimensions;
     x2 += txt_box_dimensions;
@@ -94,7 +94,7 @@ if (/* TODO calendar doesn't exist */ true) {
   var prev_box = null;
   for (var week = 0; week < num_weeks; week++) {
     var fill_color = (week == highlight_week)
-                       ? doc.colors.itemByName("melon-pink")
+                       ? doc.colors.itemByName("melon_pink")
                        : doc.swatches.item("None");
 
     x1 = calendar_x1;
