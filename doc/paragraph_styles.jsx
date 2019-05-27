@@ -4,8 +4,9 @@ $.writeln("doc/paragraph_styles.jsx depends on\r",
 font = app.fonts[647]; // San Francisco Text  Regular
 var doc = app.activeDocument;
 
-var body = ( doc.paragraphStyles.itemByName("body")
-             || doc.paragraphStyles.add() );
+var body = (doc.paragraphStyles.itemByName("body") != null)
+              ? doc.paragraphStyles.itemByName("body")
+              : doc.paragraphStyles.add();
 body.properties = {
   name          : "body",
   appliedFont   : font,
@@ -15,8 +16,9 @@ body.properties = {
   tracking      : -30
 };
 
-var obj = ( doc.paragraphStyles.itemByName("obj")
-            || doc.paragraphStyles.add() );
+var obj = (doc.paragraphStyles.itemByName("obj") != null)
+             ? doc.paragraphStyles.itemByName("obj")
+             : doc.paragraphStyles.add();
 obj.properties = {
   name          : "obj",
   basedOn       : body,
@@ -24,24 +26,27 @@ obj.properties = {
   pointSize     : 8
 };
 
-var body_heading = ( doc.paragraphStyles.itemByName("body_heading")
-                     || doc.paragraphStyles.add() );
+var body_heading = (doc.paragraphStyles.itemByName("body_heading") != null)
+                      ? doc.paragraphStyles.itemByName("body_heading")
+                      : doc.paragraphStyles.add();
 body_heading.properties = {
   name      : "body_heading",
   basedOn   : body,
   fontStyle : "Semibold"
 };
 
-var obj_heading = ( doc.paragraphStyles.itemByName("obj_heading")
-                    || doc.paragraphStyles.add() );
+var obj_heading = (doc.paragraphStyles.itemByName("obj_heading") != null)
+                     ? doc.paragraphStyles.itemByName("obj_heading")
+                     : doc.paragraphStyles.add();
 obj_heading.properties = {
   name      : "obj_heading",
   basedOn   : obj,
   fontStyle : "Semibold"
 };
 
-var marginals = ( doc.paragraphStyles.itemByName("marginals")
-                  || doc.paragraphStyles.add() );
+var marginals = (doc.paragraphStyles.itemByName("marginals") != null)
+                   ? doc.paragraphStyles.itemByName("marginals")
+                   : doc.paragraphStyles.add();
 marginals.properties = {
   name      : "marginals",
   basedOn   : body,
@@ -49,16 +54,20 @@ marginals.properties = {
   pointSize : 8
 };
 
-var marginal_bind = ( doc.paragraphStyles.itemByName("marginal_bind")
-                      || doc.paragraphStyles.add() );
+var marginal_bind =
+    (doc.paragraphStyles.itemByName("marginal_bind") != null)
+       ? doc.paragraphStyles.itemByName("marginal_bind")
+       : doc.paragraphStyles.add();
 marginal_bind.properties = {
   name          : "marginal_bind",
   basedOn       : marginals,
   justification : Justification.TO_BINDING_SIDE
 };
 
-var marginal_nobind = ( doc.paragraphStyles.itemByName("marginal_nobind")
-                        || doc.paragraphStyles.add() );
+var marginal_nobind =
+    (doc.paragraphStyles.itemByName("marginal_nobind") != null)
+       ? doc.paragraphStyles.itemByName("marginal_nobind")
+       : doc.paragraphStyles.add();
 marginal_nobind.properties = {
   name          : "marginal_nobind",
   basedOn       : marginals,
