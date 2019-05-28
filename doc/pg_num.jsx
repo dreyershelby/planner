@@ -1,5 +1,5 @@
 ﻿$.writeln("doc/pg_num.jsx depends on\r",
-          "- doc/paragraph_styles.jsx\r",
+          "- doc/object_styles.jsx\r",
           "- spread/pg_num.jsx\r",
           "- page/pg_num.jsx");
 

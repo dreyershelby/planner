@@ -1,6 +1,7 @@
 ﻿$.writeln("page/calendar.jsx depends on\r",
             "- doc/colors.jsx\r",
             "- doc/layers.jsx\r",
+            "- doc/object_styles.jsx\r",
             "- doc/paragraph_styles.jsx\r",
             "- spread/week_headings.jsx's function week_num_in_year(ref)\r",
             "- spread/week_headings.jsx's function month(from_num)");

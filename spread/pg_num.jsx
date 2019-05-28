@@ -1,5 +1,5 @@
 $.writeln("spread/pg_num.jsx depends on\r",
-          "- doc/paragraph_styles.jsx\r",
+          "- doc/object_styles.jsx\r",
           "- page/pg_num.jsx");
 
 function add_to(pg) {

@@ -1,5 +1,5 @@
 $.writeln("page/pg_num.jsx depends on\r",
-          "- doc/paragraph_styles.jsx");
+          "- doc/object_styles.jsx");
 
 var doc = app.activeDocument;
 var pg = app.layoutWindows.item(0).activePage; // parameter

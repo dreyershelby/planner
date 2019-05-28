@@ -1,6 +1,6 @@
 $.writeln("spread/week_headings.jsx depends on\r",
             "- doc/layers.jsx\r",
-            "- doc/paragraph_styles.jsx\r");
+            "- doc/object_styles.jsx\r");
 
 function week_num_in_year(ref) {
   if (ref == null) ref = new Date();
