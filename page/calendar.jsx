@@ -39,11 +39,13 @@ var doc = app.activeDocument;
 var pg = app.layoutWindows[0].activePage; // parameter
 
 const today = new Date();
-var last  = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-last.setDate(last.getDate() - 1);
+const ref /* for this week */ = today;
 
-const highlight_week = week_num_in_month();
-const num_weeks      = week_num_in_month(last) + 1; // + 1 to offset 0-based
+var last_date = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+last_date.setDate(last_date.getDate() - 1);
+
+const this_week = week_num_in_month();
+const num_weeks = week_num_in_month(last_date) + 1; // + 1 to offset 0-based
                                                     // counting
 const txt_box_dimensions     = 1; // 1p0
 const marginal_height        = txt_box_dimensions;
@@ -64,13 +66,13 @@ if (/* TODO calendar doesn't exist */ true) {
     itemLayer          : doc.layers.itemByName("calendar"),
     appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
     geometricBounds    : [ y1, x1, y2, x2 ],
-    contents           : month(today.getMonth())
+    contents           : month(ref.getMonth())
   });
 
   y1 += txt_box_dimensions;
   y2 += txt_box_dimensions;
 
-  x1 = calendar_x1;
+  // x1 = calendar_x1; // already true
   x2 = x1 + txt_box_dimensions;
 
   const days = [ 'S', 'M', 'T', 'W', 'T', 'F', 'S' ];
@@ -82,8 +84,6 @@ if (/* TODO calendar doesn't exist */ true) {
       geometricBounds    : [y1, x1, y2, x2],
       contents           : days[day]
     });
-    day_box.paragraphs.item(0).applyParagraphStyle(
-                             doc.paragraphStyles.itemByName("obj_heading"));
 
     x1 += txt_box_dimensions;
     x2 += txt_box_dimensions;
@@ -92,28 +92,23 @@ if (/* TODO calendar doesn't exist */ true) {
   y1 += txt_box_dimensions;
   y2 += txt_box_dimensions;
 
+  var date_box = null;
   var prev_box = null;
   for (var week = 0; week < num_weeks; week++) {
-    var fill_color = (week == highlight_week)
-                       ? doc.colors.itemByName("melon_pink")
-                       : doc.swatches.item("None");
-
     x1 = calendar_x1;
     x2 = x1 + txt_box_dimensions;
 
     for (var day = 0; day < 7; day++) {
       // if we haven't created the first txt box in our series of linked
       // txt boxes, create it
-      var date_box = pg.textFrames.add({
-        itemLayer       : doc.layers.itemByName("calendar"),
-        geometricBounds : [y1, x1, y2, x2],
-        fillColor       : fill_color,
-        contents        : "\n",
-        name            : "date"
+      date_box = pg.textFrames.add({
+        itemLayer          : doc.layers.itemByName("calendar"),
+        appliedObjectStyle : doc.objectStyles.itemByName("calendar"),
+        geometricBounds    : [y1, x1, y2, x2],
+        name               : "date"
       });
-
-      var date = date_box.paragraphs.item(0);
-      date.applyParagraphStyle(doc.paragraphStyles.itemByName("body"));
+      if (week == this_week)
+        date_box.fillColor = doc.colors.itemByName("melon_pink");
 
       x1 += txt_box_dimensions;
       x2 += txt_box_dimensions;
@@ -127,7 +122,13 @@ if (/* TODO calendar doesn't exist */ true) {
   }
 }
 
-var sun = today;
-sun.setDate(sun.getDate() - sun.getDay());
-var sat = sun;
-sat.setDate(sat.getDate() + 7);
+var dates_txt = "";
+var week_1 = new Date(ref.getFullYear(), ref.getMonth(), 1);
+var week_1_day_0_adj = (week_1.getDay() < 5) ? (-week_1.getDay())
+                                             : (7 - week_1.getDay());
+for (var count = 0; count < -week_1_day_0_adj; count++)
+  dates_txt += '\n';
+for (var date = 1; date < last_date.getDate(); date++)
+  dates_txt += date + '\n';
+$.writeln("num of \\n: ",week_1_day_0_adj,"dates: ",dates_txt);
+date_box.startTextFrame.contents = dates_txt;

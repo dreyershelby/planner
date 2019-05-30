@@ -30,7 +30,7 @@ var pg_num = (doc.objectStyles.itemByName("pg_num") != null)
                 : doc.objectStyles.add();
 pg_num.properties = base_prop;
 pg_num.properties = {
-  name : "pg_num",
+  name                  : "pg_num",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_nobind"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN
@@ -42,9 +42,9 @@ var week_num = (doc.objectStyles.itemByName("week_num") != null)
                   : doc.objectStyles.add();
 week_num.properties = base_prop;
 week_num.properties = {
-  name : "week_num",
+  name                  : "week_num",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_bind"),
-  textFramePreferences : {
+  textFramePreferences  : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
@@ -54,9 +54,9 @@ var date_range = (doc.objectStyles.itemByName("date_range") != null)
                     : doc.objectStyles.add();
 date_range.properties = base_prop;
 date_range.properties = {
-  name : "date_range",
+  name                  : "date_range",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_nobind"),
-  textFramePreferences : {
+  textFramePreferences  : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
@@ -67,10 +67,22 @@ var calendar_heading =
        : doc.objectStyles.add();
 calendar_heading.properties = base_prop;
 calendar_heading.properties = {
-  name : "calendar_heading",
+  name                  : "calendar_heading",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
-  textFramePreferences : {
+  textFramePreferences  : {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN,
-    insetSpacing : 0.05 * txt_box_dimensions
+    insetSpacing : 0.15 * txt_box_dimensions
   }
 }
+
+var calendar = (doc.objectStyles.itemByName("calendar") != null)
+                  ? doc.objectStyles.itemByName("calendar")
+                  : doc.objectStyles.add();
+calendar.properties = base_prop;
+calendar.properties = {
+  name                  : "calendar",
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj"),
+  textFramePreferences  : {
+    insetSpacign : 0.15 * txt_box_dimensions
+  }
+};
