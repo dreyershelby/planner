@@ -1,134 +1,225 @@
-﻿$.writeln("page/calendar.jsx depends on\r",
-            "- doc/colors.jsx\r",
-            "- doc/layers.jsx\r",
-            "- doc/object_styles.jsx\r",
-            "- doc/paragraph_styles.jsx\r",
-            "- spread/week_headings.jsx's function week_num_in_year(ref)\r",
-            "- spread/week_headings.jsx's function month(from_num)");
+﻿/* page/calendar.jsx
+ * bea dreyer
+ *
+ * this script adds a calendar to the active/selected page for the month
+ * given by the date variable ref. the week ref resides in is highlighted.
+ *
+ * depends on:
+ *   doc/layers.jsx
+ *   doc/colors.jsx
+ *   doc/paragraph_styles.jsx
+ *   doc/object_styles.jsx
+ *   function in spread/week_headings.jsx
+ *     month(from_num)
+ */
 
-function week_num_in_year(ref) {
+/* this function calculates the number of partial/whole weeks spanned by the
+ * time between the 1st of the month ref resides in & ref
+ * for example, say ref's date is the 30th, & its month started on a
+ * saturday. then, this       S  M  T  W  T  F  S   number of weeks returned
+ * function would return 6,   -  -  -  -  -  -  1              1
+ * even though 30/7 = 4 2/7,  2  3  4  5  6  7  8              2
+ * because we're counting     9 10 11 12 13 14 15              3
+ * the number of weeks       16 17 18 19 20 21 22              4
+ * "touched" by this span of 23 24 25 26 27 28 29              5
+ * dates.                    30 31  -  -  -  -  -              6
+ *
+ * precondition: ref is a valid Date object
+ */
+function week_span_in_month(ref) {
+  // if no argument was given, our reference date is today
   if (ref == null) ref = new Date();
-  var week_1 = new Date(ref.getFullYear(), 0);
-  var week_1_day_0_adj = (week_1.getDay() < 5) ? (-week_1.getDay())
-                                               : (7 - week_1.getDay());
-  week_1.setDate(week_1.getDate() + week_1_day_0_adj);
-  const elapsed_time = ref - week_1;
-                                    /* millisec -> weeks */
-  return Math.floor(elapsed_time / (1000 * 60 * 60 * 24 * 7));
-} /* 0-based counting */
 
-function week_num_in_month(ref) {
-  if (ref == null) ref = new Date();
+  // week 1 WILL contain the 1st of the given month of the given year
   var week_1 = new Date(ref.getFullYear(), ref.getMonth(), 1);
-  var week_1_day_0_adj = (week_1.getDay() < 5) ? (-week_1.getDay())
-                                               : (7 - week_1.getDay());
-  week_1.setDate(week_1.getDate() + week_1_day_0_adj);
-  const elapsed_time = ref - week_1;
-                                    /* millisec -> weeks */
-  return Math.floor(elapsed_time / (1000 * 60 * 60 * 24 * 7));
-} /* 0-based counting */
+  // get the sunday of that week
+  week_1.setDate(week_1.getDate() - week_1.getDay());
 
+  // will give the number of whole weeks, plus some days/hours/etc, between
+  // the sunday of week 1 and today, so return with added 1 to get the
+  // 1-based week count
+  const ELAPSED_TIME = ref - week_1;
+                                    /* millisec -> weeks */
+  return Math.floor(ELAPSED_TIME / (1000 * 60 * 60 * 24 * 7)) + 1;
+} /* 1-based counting */
+
+/* a way to translate the Date objects' number representation of months to
+ * strings of my chosen format that state the month name
+ * precondition: from_num is a number between or including 0-11
+ */
 function month(from_num) {
-  const months = [ "january",   "february", "march",    "april",
+  const MONTHS = [ "january",   "february", "march",    "april",
                    "may",       "june",     "july",     "august",
                    "september", "october",  "november", "december" ];
-  return months[from_num];
+  return MONTHS[from_num];
+}
+
+/* a way to translate the Date objects' number representation of days to
+ * strings of my chosen format that state the day initial
+ * precondition: from_num is a number between or including 0-6
+ */
+function day(from_num) {
+  const DAYS = [ 'S', 'M', 'T', 'W', 'T', 'F', 'S' ];
+  return DAYS[from_num];
+}
+
+/* deletes the text frame and all next frames linked to it
+ * precondition: frame is a valid text frame */
+function rm_linked_txt(frame) {
+  if (frame.nextTextFrame != null) rm_linked_txt(frame.nextTextFrame);
+  frame.remove();
 }
 
 var doc = app.activeDocument;
 var pg = app.layoutWindows[0].activePage; // parameter
 
-const today = new Date();
-const ref /* for this week */ = today;
+const TODAY = new Date();
+const REF /* for the week we'll highlight */ = TODAY;
 
-var last_date = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+var first_date = new Date(REF.getFullYear(), REF.getMonth(), 1);
+// the last day of the month could be any date from the 28th - 31st,
+// so calculate it by getting the 1st of the NEXT month, and subtracting 1
+var last_date = new Date(REF.getFullYear(), REF.getMonth() + 1, 1);
 last_date.setDate(last_date.getDate() - 1);
 
-const this_week = week_num_in_month();
-const num_weeks = week_num_in_month(last_date) + 1; // + 1 to offset 0-based
-                                                    // counting
-const txt_box_dimensions     = 1; // 1p0
-const marginal_height        = txt_box_dimensions;
-const spacing_up_to_marginal = 0.5 * txt_box_dimensions;
+// we'll be highlighting this week on the calendar later
+const THIS_WEEK = week_span_in_month(REF);
+const NUM_WEEKS = week_span_in_month(last_date);
 
-const calendar_y1 = pg.bounds[0] + marginal_height + spacing_up_to_marginal;
-const calendar_x1 = pg.bounds[3] - 7 * txt_box_dimensions;
-const calendar_y2 = calendar_y1 + (2 + num_weeks) * txt_box_dimensions;
-const calendar_x2 = pg.bounds[3];
+const TXT_BOX_DIMENSIONS     = 1; // 1p0
 
-if (/* TODO calendar doesn't exist */ true) {
-  var y1 = calendar_y1;
-  var y2 = y1 + txt_box_dimensions;
-  var x1 = calendar_x1;
-  var x2 = calendar_x2;
+// there is a header right above this calendar that we want to lock the
+// calendar to
+// since TXT_BOX_DIMENSIONS is a frequently used ""global"" in this project,
+// im not going to get the actual header object & will instead use this
+// global
+// probably bad programming practice but also adobe sucks and their
+// libraries do not work as i would like so im using this as a (senseless)
+// excuse
+const MARGINAL_HEIGHT        = TXT_BOX_DIMENSIONS;
+const SPACING_UP_TO_MARGINAL = 0.5 * TXT_BOX_DIMENSIONS;
 
-  var heading_box = pg.textFrames.add({
-    itemLayer          : doc.layers.itemByName("calendar"),
-    appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
-    geometricBounds    : [ y1, x1, y2, x2 ],
-    contents           : month(ref.getMonth())
-  });
+// bounds of the calendar
+// top of calendar gives a little visual space between the above header
+// (which is right up against the top of the page) n it
+const CALENDAR_Y1 = pg.bounds[0] + MARGINAL_HEIGHT + SPACING_UP_TO_MARGINAL;
+// calendar is right up against the right side of the page, so the left
+// bound is 7 text boxes (for each day in a week) away from that
+const CALENDAR_X2 = pg.bounds[3];
+const CALENDAR_X1 = CALENDAR_X2 - 7 * TXT_BOX_DIMENSIONS;
 
-  y1 += txt_box_dimensions;
-  y2 += txt_box_dimensions;
+// heading text box stating the month
 
-  // x1 = calendar_x1; // already true
-  x2 = x1 + txt_box_dimensions;
+// bounds
+var y1 = CALENDAR_Y1;
+var y2 = y1 + TXT_BOX_DIMENSIONS;
+var x1 = CALENDAR_X1;
+var x2 = CALENDAR_X2; // spans the entire width of the calendar
 
-  const days = [ 'S', 'M', 'T', 'W', 'T', 'F', 'S' ];
-  var day_box = null;
-  for (var day = 0; day < 7; day++) {
-    day_box = pg.textFrames.add({
-      itemLayer          : doc.layers.itemByName("calendar"),
-      appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
-      geometricBounds    : [y1, x1, y2, x2],
-      contents           : days[day]
-    });
-
-    x1 += txt_box_dimensions;
-    x2 += txt_box_dimensions;
-  }
-
-  y1 += txt_box_dimensions;
-  y2 += txt_box_dimensions;
-
-  var date_box = null;
-  var prev_box = null;
-  for (var week = 0; week < num_weeks; week++) {
-    x1 = calendar_x1;
-    x2 = x1 + txt_box_dimensions;
-
-    for (var day = 0; day < 7; day++) {
-      // if we haven't created the first txt box in our series of linked
-      // txt boxes, create it
-      date_box = pg.textFrames.add({
-        itemLayer          : doc.layers.itemByName("calendar"),
-        appliedObjectStyle : doc.objectStyles.itemByName("calendar"),
-        geometricBounds    : [y1, x1, y2, x2],
-        name               : "date"
-      });
-      if (week == this_week)
-        date_box.fillColor = doc.colors.itemByName("melon_pink");
-
-      x1 += txt_box_dimensions;
-      x2 += txt_box_dimensions;
-
-      if (prev_box != null) prev_box.nextTextFrame = date_box;
-      prev_box = date_box;
-    }
-
-    y1 += txt_box_dimensions;
-    y2 += txt_box_dimensions;
-  }
+// if this heading box doesn't exist, add it
+var calendar_month = (pg.textFrames.itemByName("calendar_month") == null) 
+  ? pg.textFrames.add({ name : "calendar_month" })
+  : pg.textFrames.itemByName("calendar_month");
+// update the box's properties
+calendar_month.properties = {
+  itemLayer          : doc.layers.itemByName("calendar"),
+  appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
+  geometricBounds    : [ y1, x1, y2, x2 ],
+  contents           : month(REF.getMonth())
 }
 
-var dates_txt = "";
-var week_1 = new Date(ref.getFullYear(), ref.getMonth(), 1);
-var week_1_day_0_adj = (week_1.getDay() < 5) ? (-week_1.getDay())
-                                             : (7 - week_1.getDay());
-for (var count = 0; count < -week_1_day_0_adj; count++)
-  dates_txt += '\n';
-for (var date = 1; date < last_date.getDate(); date++)
-  dates_txt += date + '\n';
-$.writeln("num of \\n: ",week_1_day_0_adj,"dates: ",dates_txt);
-date_box.startTextFrame.contents = dates_txt;
+// *typewriter newline noise*
+y1  = y2;
+y2 += TXT_BOX_DIMENSIONS;
+// x1 = CALENDAR_X1; // already true
+
+// 7 heading text boxes, each containing an initial for a day of the week
+
+x2 = x1 + TXT_BOX_DIMENSIONS;
+
+var day_box  = null;
+var day_name = null;
+for (var day_num = 0; day_num < 7; day_num++) {
+  day_name = day(day_num) + " (" + day_num + ")";
+
+  day_box = (pg.textFrames.itemByName(day_name) == null)
+      ? pg.textFrames.add({ name : day_name })
+      : pg.textFrames.itemByName(day_name);
+  day_box.properties = {
+    itemLayer          : doc.layers.itemByName("calendar"),
+    appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
+    geometricBounds    : [y1, x1, y2, x2],
+    contents           : day(day_num)
+  };
+
+  x1  = x2;
+  x2 += TXT_BOX_DIMENSIONS;
+}
+
+y1  = y2;
+y2 += TXT_BOX_DIMENSIONS;
+
+// the dates of the month
+// each text box (for a space in the weeks shown by the calendar) is linked
+// to the one previous n the one next in chrono order so that the actual
+// text can just be entered into the first box
+
+var date_box = null;
+var prev_box = null; // for linking the date text boxes together
+
+// determines the content of each box
+// offset to make sure the 1st of the month is on the right day
+var date_num  = 1 - first_date.getDay();
+for (var week = 1; week <= NUM_WEEKS; week++) { // 1-based counting to match
+  x1 = CALENDAR_X1;                             // how we calculated week
+  x2 = x1 + TXT_BOX_DIMENSIONS;                 // span
+
+  for (var day = 0; day < 7; day++) { // 0-based counting to match Date()
+    // the approach: if we havent started updating/creating date text boxes
+    // shown by date_box == null, then we need to pick/add the 1st text box
+    // so that we can go through its next links to create the complete
+    // list of date boxes
+    if (date_box == null) {
+      date_box = (pg.textFrames.itemByName("date") == null)
+        ? pg.textFrames.add({ name : "date" })
+        : pg.textFrames.itemByName("date").startTextFrame;
+    // else we already have a box that we're following the links on & we
+    // just need to create new boxes if we don't have a next one
+    } else {
+      date_box = (date_box.nextTextFrame == null)
+        ? pg.textFrames.add({ name : "date" })
+        : date_box.nextTextFrame;
+    }
+
+    date_box.properties = {
+      itemLayer          : doc.layers.itemByName("calendar"),
+      appliedObjectStyle : doc.objectStyles.itemByName("calendar"),
+      geometricBounds    : [y1, x1, y2, x2],
+      name               : "date"
+    };
+    // highlight whichever week ref resides in
+    if (week == THIS_WEEK)
+      date_box.fillColor = doc.colors.itemByName("melon_pink");
+    // put in the date if valid, else put just the new line
+    if (date_num < 1 || date_num > last_date.getDate())
+      date_box.contents = "\n";
+    else date_box.contents = "" + date_num + "\n";
+
+    date_num++;
+
+    x1  = x2;
+    x2 += TXT_BOX_DIMENSIONS;
+
+    // add the date box to the linked list of them n move on
+    if (prev_box != null && prev_box.nextTextFrame == null)
+      prev_box.nextTextFrame = date_box;
+    prev_box = date_box;
+  }
+
+  y1  = y2;
+  y2 += TXT_BOX_DIMENSIONS;
+}
+
+// clean up extra date boxes if we have too many for how many weeks we're
+// showing on the calendar
+if (date_box.nextTextFrame != null) rm_linked_txt(date_box.nextTextFrame);

@@ -1,12 +1,34 @@
-$.writeln("doc/paragraph_styles.jsx depends on\r",
-          "- doc/colors.jsx");
+/* doc/paragraph_styles.jsx
+ * bea dreyer
+ *
+ * this script creates paragraph styles to be used to create this planner in
+ * Adobe Indesign CS5.5
+ * so far, in this file, they can control:
+ *   font & all its styles & shapes
+ *   text color & tint
+ *   horizontal justification
+ * available paragraph styles:
+ *   body
+ *   obj (-ect body)
+ *   body-heading
+ *   obj-heading
+ *   marginals
+ *   marginal-bind (text justification is towards the binding edge)
+ *   marginal-nobind
+ *
+ * depends on:
+ *   doc/colors.jsx
+ */
 
 font = app.fonts[647]; // San Francisco Text  Regular
+
 var doc = app.activeDocument;
 
+// if the paragraph style doesn't exist, add it
 var body = (doc.paragraphStyles.itemByName("body") != null)
               ? doc.paragraphStyles.itemByName("body")
               : doc.paragraphStyles.add();
+// update the paragraph style's properties
 body.properties = {
   name          : "body",
   appliedFont   : font,
