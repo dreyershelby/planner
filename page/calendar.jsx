@@ -87,6 +87,9 @@ const THIS_WEEK = week_span_in_month(REF);
 const NUM_WEEKS = week_span_in_month(last_date);
 
 const TXT_BOX_DIMENSIONS     = 1; // 1p0
+const FRAME_WEIGHT = 0.5 * // stroke weight is in units of 0p0.5 apparently
+  doc.objectStyles.itemByName("outer_frame").strokeWeight / 6;
+  // 0.5 pt * 1 pica/6 pt
 
 // there is a header right above this calendar that we want to lock the
 // calendar to
@@ -96,16 +99,19 @@ const TXT_BOX_DIMENSIONS     = 1; // 1p0
 // probably bad programming practice but also adobe sucks and their
 // libraries do not work as i would like so im using this as a (senseless)
 // excuse
-const MARGINAL_HEIGHT        = TXT_BOX_DIMENSIONS;
-const SPACING_UP_TO_MARGINAL = 0.5 * TXT_BOX_DIMENSIONS;
+const MARGINAL_HEIGHT = TXT_BOX_DIMENSIONS;
+// another global i like for spacing between different objects
+const OBJ_SPACING     = 0.5 * TXT_BOX_DIMENSIONS;
 
-// bounds of the calendar
+// bounds of the calendar, not including the frame
 // top of calendar gives a little visual space between the above header
 // (which is right up against the top of the page) n it
-const CALENDAR_Y1 = pg.bounds[0] + MARGINAL_HEIGHT + SPACING_UP_TO_MARGINAL;
+const CALENDAR_Y1 = pg.bounds[0] + MARGINAL_HEIGHT + OBJ_SPACING
+                  + FRAME_WEIGHT;
+const CALENDAR_Y2 = CALENDAR_Y1 + (2 + NUM_WEEKS) * TXT_BOX_DIMENSIONS;
 // calendar is right up against the right side of the page, so the left
 // bound is 7 text boxes (for each day in a week) away from that
-const CALENDAR_X2 = pg.bounds[3];
+const CALENDAR_X2 = pg.bounds[3] - FRAME_WEIGHT;
 const CALENDAR_X1 = CALENDAR_X2 - 7 * TXT_BOX_DIMENSIONS;
 
 // heading text box stating the month
@@ -123,7 +129,7 @@ var calendar_month = (pg.textFrames.itemByName("calendar_month") == null)
 // update the box's properties
 calendar_month.properties = {
   itemLayer          : doc.layers.itemByName("calendar"),
-  appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
+  appliedObjectStyle : doc.objectStyles.itemByName("obj_heading1"),
   geometricBounds    : [ y1, x1, y2, x2 ],
   contents           : month(REF.getMonth())
 }
@@ -147,7 +153,7 @@ for (var day_num = 0; day_num < 7; day_num++) {
       : pg.textFrames.itemByName(day_name);
   day_box.properties = {
     itemLayer          : doc.layers.itemByName("calendar"),
-    appliedObjectStyle : doc.objectStyles.itemByName("calendar_heading"),
+    appliedObjectStyle : doc.objectStyles.itemByName("obj_heading2"),
     geometricBounds    : [y1, x1, y2, x2],
     contents           : day(day_num)
   };
@@ -158,6 +164,16 @@ for (var day_num = 0; day_num < 7; day_num++) {
 
 y1  = y2;
 y2 += TXT_BOX_DIMENSIONS;
+
+// accent under headings
+var accent = (pg.graphicLines.itemByName("calendar_accent") == null)
+                ? pg.graphicLines.add({ name : "calendar_accent"})
+                : pg.graphicLines.itemByName("calendar_accent");
+accent.properties = {
+  itemLayer          : doc.layers.itemByName("frames"),
+  appliedObjectStyle : doc.objectStyles.itemByName("accent1"),
+  geometricBounds    : [y1, CALENDAR_X1, y1, CALENDAR_X2]
+}
 
 // the dates of the month
 // each text box (for a space in the weeks shown by the calendar) is linked
@@ -195,7 +211,6 @@ for (var week = 1; week <= NUM_WEEKS; week++) { // 1-based counting to match
       itemLayer          : doc.layers.itemByName("calendar"),
       appliedObjectStyle : doc.objectStyles.itemByName("calendar"),
       geometricBounds    : [y1, x1, y2, x2],
-      name               : "date"
     };
     // highlight whichever week ref resides in
     if (week == THIS_WEEK)
@@ -223,3 +238,16 @@ for (var week = 1; week <= NUM_WEEKS; week++) { // 1-based counting to match
 // clean up extra date boxes if we have too many for how many weeks we're
 // showing on the calendar
 if (date_box.nextTextFrame != null) rm_linked_txt(date_box.nextTextFrame);
+
+// outer frame
+var frame = (pg.rectangles.itemByName("calendar_frame") == null)
+               ? pg.rectangles.add({ name : "calendar_frame" })
+               : pg.rectangles.itemByName("calendar_frame");
+frame.properties = {
+  itemLayer          : doc.layers.itemByName("frames"),
+  appliedObjectStyle : doc.objectStyles.itemByName("outer_frame"),
+  geometricBounds    : [ CALENDAR_Y1 - FRAME_WEIGHT / 2,  // divide by 2 bc
+                         CALENDAR_X1 - FRAME_WEIGHT / 2,  // indesign puts a
+                         CALENDAR_Y2 + FRAME_WEIGHT / 2,  // line's coordin-
+                         CALENDAR_X2 + FRAME_WEIGHT / 2 ] // -ates at the
+}                                                    // center of its stroke

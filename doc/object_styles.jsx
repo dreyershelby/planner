@@ -1,21 +1,21 @@
 /* doc/object_styles.jsx
  * bea dreyer
  *
- * this script creates object styles, like styles for text frames, to be
- * used to create this planner in Adobe Indesign CS5.5
+ * this script creates object styles, like styles for text frames or
+ * rectangles, to be * used to create this planner in Adobe Indesign CS5.5
  * so far, in this file, they can control:
  *   border color/weight
  *   fill color
  *   paragraph style for text
  *   spacing between text and border
- *   vertical justification
+ *   vertical justification of text
  * available object styles:
  *   base (default/no style)
  *   pg num
  *   week num
  *   date range
- *   calendar heading
- *   calendar (body)
+ *   obj heading
+ *   obj (body)
  *
  * depends on:
  *   doc/paragraph_styles.jsx
@@ -24,6 +24,8 @@
 var doc = app.activeDocument;
 
 const TXT_BOX_DIMENSIONS = 1; // 1p0
+
+// text frames
 
 // if the object style doesn't exist, add it
 var base = (doc.objectStyles.itemByName("base") != null)
@@ -89,18 +91,31 @@ date_range.properties = {
   }
 };
 
-var calendar_heading =
-    (doc.objectStyles.itemByName("calendar_heading") != null)
-       ? doc.objectStyles.itemByName("calendar_heading")
-       : doc.objectStyles.add();
-// calendar_heading.basedOn = base
-calendar_heading.properties = base_prop;
-calendar_heading.properties = {
-  name                  : "calendar_heading",
+var obj_heading1 = (doc.objectStyles.itemByName("obj_heading1") != null)
+                     ? doc.objectStyles.itemByName("obj_heading1")
+                     : doc.objectStyles.add();
+// obj_heading1.basedOn = base
+obj_heading1.properties = base_prop;
+obj_heading1.properties = {
+  name                  : "obj_heading1",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN,
-    insetSpacing : 0.15 * TXT_BOX_DIMENSIONS
+    insetSpacing : 0.12 * TXT_BOX_DIMENSIONS
+  }
+}
+
+var obj_heading2 = (doc.objectStyles.itemByName("obj_heading2") != null)
+                     ? doc.objectStyles.itemByName("obj_heading2")
+                     : doc.objectStyles.add();
+// obj_heading2.basedOn = base
+obj_heading2.properties = base_prop;
+obj_heading2.properties = {
+  name                  : "obj_heading2",
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
+  textFramePreferences  : {
+    verticalJustification : VerticalJustification.TOP_ALIGN,
+    insetSpacing : 0.12 * TXT_BOX_DIMENSIONS
   }
 }
 
@@ -114,6 +129,36 @@ calendar.properties = {
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.CENTER_ALIGN,
-    insetSpacign : 0.15 * TXT_BOX_DIMENSIONS
+    insetSpacign : 0.12 * TXT_BOX_DIMENSIONS
   }
 };
+
+// rectangles
+
+var frame = (doc.objectStyles.itemByName("frame") != null)
+              ? doc.objectStyles.itemByName("frame")
+              : doc.objectStyles.add();
+var frame_prop = frame.properties = {
+  name         : "frame",
+  fillColor    : doc.swatches.item("None"),
+  strokeColor  : doc.colors.itemByName("toledo_purple")
+}
+
+var outer_frame = (doc.objectStyles.itemByName("outer_frame") != null)
+                    ? doc.objectStyles.itemByName("outer_frame")
+                    : doc.objectStyles.add();
+// outer_frame.basedOn = frame
+outer_frame.properties = frame_prop;
+outer_frame.properties = {
+  name         : "outer_frame",
+  strokeWeight : 2
+}
+
+var accent1 = (doc.objectStyles.itemByName("accent1") != null)
+                ? doc.objectStyles.itemByName("accent1")
+                : doc.objectStyles.add();
+accent1.properties = {
+  name         : "accent1",
+  strokeColor  : doc.colors.itemByName("toledo_purple"),
+  strokeWeight : 1
+}

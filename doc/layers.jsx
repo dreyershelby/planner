@@ -3,10 +3,11 @@
  *
  * this script creates layers necessary for organization of elements in
  * this planner, created in Adobe Indesign CS5.5
- * current layers:
+ * current layers, from front to back:
+ *   frames
+ *   calendar
  *   holes
  *   marginals (headers/footers)
- *   calendar
  */
 
 var doc = app.activeDocument;
@@ -20,3 +21,6 @@ if (doc.layers.itemByName("marginals") == null)
 
 if (doc.layers.itemByName("calendar") == null)
   doc.layers.add({ name : "calendar" });
+
+if (doc.layers.itemByName("frames") == null)
+  doc.layers.add({ name : "frames" });
