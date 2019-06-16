@@ -86,10 +86,10 @@ last_date.setDate(last_date.getDate() - 1);
 const THIS_WEEK = week_span_in_month(REF);
 const NUM_WEEKS = week_span_in_month(last_date);
 
-const TXT_BOX_DIMENSIONS     = 1; // 1p0
-const FRAME_WEIGHT = 0.5 * // stroke weight is in units of 0p0.5 apparently
-  doc.objectStyles.itemByName("outer_frame").strokeWeight / 6;
-  // 0.5 pt * 1 pica/6 pt
+const TXT_BOX_DIMENSIONS = 1; // 1p0
+const STROKE_WEIGHT_UNIT = 0.5 / 6; // 0p0.5, there are 6 points in a pica
+const FRAME_WEIGHT = STROKE_WEIGHT_UNIT *
+  doc.objectStyles.itemByName("outer_frame").strokeWeight;
 
 // there is a header right above this calendar that we want to lock the
 // calendar to

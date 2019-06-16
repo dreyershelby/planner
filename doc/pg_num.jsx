@@ -16,8 +16,6 @@ function add_to(pg, on_doc) {
   // calculating constants
   const TXT_BOX_HEIGHT = 1; // 1p0, this is kinda just everywhere
 
-  const "pg_num" = "pg_num";
-
   // create the textbox for the page number at the very bottom of the page,
   // taking up its width, with a height of TXT_BOX_HEIGHT
   var txtbox = (pg.textFrames.itemByName("pg_num") == null)
