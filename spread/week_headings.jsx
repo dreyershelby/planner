@@ -103,18 +103,26 @@ function add_to(pg, on_doc) {
   const txt_box_height = 1; // 1p0
 
   const week_str = "week " + week_num_in_year();
-  var week_box = pg.textFrames.add({
+  var week_box = (pg.textFrames.itemByName("week_num") == null)
+                    ? pg.textFrames.add()
+                    : pg.textFrames.itemByName("week_num");
+  week_box.properties = {
+    name               : "week_num",
     itemLayer          : on_doc.layers.itemByName("marginals"),
     appliedObjectStyle : on_doc.objectStyles.itemByName("week_num"),
     contents           : week_str
-  })
+  };
 
   const date_range_str = week_dates();
-  var date_range_box = pg.textFrames.add({
+  var date_range_box = (pg.textFrames.itemByName("date_range") == null)
+                          ? pg.textFrames.add()
+                          : pg.textFrames.itemByName("date_range");
+  date_range_box.properties = {
+    name               : "date_range",
     itemLayer          : on_doc.layers.itemByName("marginals"),
     appliedObjectStyle : on_doc.objectStyles.itemByName("date_range"),
     contents           : date_range_str,
-  })
+  };
 
   const left_box  = [ pg.bounds[0],                       // y1
                       pg.bounds[1],                       // x1
