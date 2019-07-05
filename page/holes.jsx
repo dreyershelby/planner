@@ -13,7 +13,7 @@
 function add_to(pg, on_doc) {
   // magic numbers in the format of
   //                    inches * 6 picas/inch
-  const DIAMETER        = 0.2  * 6; // quarter of an inch
+  const DIAMETER        = 0.2  * 6;
   // distance is measured from center of hole to center of another hole
   const SUBGRP_DISTANCE = 0.75 * 6; // subgroup: group of 3 holes
   // center of closest hole in 1 group to center of closest hole in another

@@ -33,6 +33,7 @@ body.properties = {
   name          : "body",
   appliedFont   : font,
   fillColor     : doc.colors.itemByName("smoky_black"),
+  fillTint      : 100,
   justification : Justification.LEFT_ALIGN,
   pointSize     : 9,
   tracking      : -30

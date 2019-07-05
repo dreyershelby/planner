@@ -13,11 +13,18 @@
 var doc = app.activeDocument;
 
 // if the layer doesn't exist, add it
+// in order of bottom layer to top
 if (doc.layers.itemByName("holes") == null)
   doc.layers.add({ name : "holes" });
 
 if (doc.layers.itemByName("marginals") == null)
   doc.layers.add({ name : "marginals" });
+
+if (doc.layers.itemByName("body") == null)
+  doc.layers.add({ name : "body" });
+
+if (doc.layers.itemByName("routines") == null)
+  doc.layers.add({ name : "routines" });
 
 if (doc.layers.itemByName("calendar") == null)
   doc.layers.add({ name : "calendar" });

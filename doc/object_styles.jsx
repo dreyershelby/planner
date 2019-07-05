@@ -9,8 +9,9 @@
  *   paragraph style for text
  *   spacing between text and border
  *   vertical justification of text
- * available object styles:
+ * available text object styles:
  *   base (default/no style)
+ *   body
  *   pg num
  *   week num
  *   date range
@@ -50,6 +51,19 @@ var base_prop = base.properties = {
   strokeWeight : 0,
   topLeftCornerOption  : CornerOptions.NONE,
   topRightCornerOption : CornerOptions.NONE
+};
+
+var body = (doc.objectStyles.itemByName("body") != null)
+              ? doc.objectStyles.itemByName("body")
+              : doc.objectStyles.add();
+// body.basedOn = base
+body.properties = base_prop;
+body.properties = {
+  name                  : "body",
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("body"),
+  textFramePreferences  : {
+    verticalJustification : VerticalJustification.TOP_ALIGN
+  }
 };
 
 var pg_num = (doc.objectStyles.itemByName("pg_num") != null)
@@ -119,13 +133,13 @@ obj_heading2.properties = {
   }
 }
 
-var calendar = (doc.objectStyles.itemByName("calendar") != null)
-                  ? doc.objectStyles.itemByName("calendar")
-                  : doc.objectStyles.add();
-// calendar.basedOn = base
-calendar.properties = base_prop;
-calendar.properties = {
-  name                  : "calendar",
+var obj = (doc.objectStyles.itemByName("obj") != null)
+             ? doc.objectStyles.itemByName("obj")
+             : doc.objectStyles.add();
+// obj.basedOn = base
+obj.properties = base_prop;
+obj.properties = {
+  name                  : "obj",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.CENTER_ALIGN,
@@ -157,8 +171,18 @@ outer_frame.properties = {
 var accent1 = (doc.objectStyles.itemByName("accent1") != null)
                 ? doc.objectStyles.itemByName("accent1")
                 : doc.objectStyles.add();
-accent1.properties = {
+var accent1_prop = accent1.properties = {
   name         : "accent1",
   strokeColor  : doc.colors.itemByName("toledo_purple"),
   strokeWeight : 1
+}
+
+var accent2 = (doc.objectStyles.itemByName("accent2") != null)
+                ? doc.objectStyles.itemByName("accent2")
+                : doc.objectStyles.add();
+// accent2.basedOn = accent1;
+accent2.properties = accent1_prop;
+accent2.properties = {
+  name         : "accent2",
+  strokeTint   : 25
 }

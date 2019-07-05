@@ -209,8 +209,8 @@ for (var week = 1; week <= NUM_WEEKS; week++) { // 1-based counting to match
 
     date_box.properties = {
       itemLayer          : doc.layers.itemByName("calendar"),
-      appliedObjectStyle : doc.objectStyles.itemByName("calendar"),
-      geometricBounds    : [y1, x1, y2, x2],
+      appliedObjectStyle : doc.objectStyles.itemByName("obj"),
+      geometricBounds    : [ y1, x1, y2, x2 ],
     };
     // highlight whichever week ref resides in
     if (week == THIS_WEEK)
