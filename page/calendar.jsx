@@ -129,7 +129,7 @@ var calendar_month = (pg.textFrames.itemByName("calendar_month") == null)
 // update the box's properties
 calendar_month.properties = {
   itemLayer          : doc.layers.itemByName("calendar"),
-  appliedObjectStyle : doc.objectStyles.itemByName("obj_heading1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("obj_head_bottom"),
   geometricBounds    : [ y1, x1, y2, x2 ],
   contents           : month(REF.getMonth())
 }
@@ -153,7 +153,7 @@ for (var day_num = 0; day_num < 7; day_num++) {
       : pg.textFrames.itemByName(day_name);
   day_box.properties = {
     itemLayer          : doc.layers.itemByName("calendar"),
-    appliedObjectStyle : doc.objectStyles.itemByName("obj_heading2"),
+    appliedObjectStyle : doc.objectStyles.itemByName("obj_head_top"),
     geometricBounds    : [y1, x1, y2, x2],
     contents           : day(day_num)
   };
@@ -171,7 +171,7 @@ var accent = (pg.graphicLines.itemByName("calendar_accent") == null)
                 : pg.graphicLines.itemByName("calendar_accent");
 accent.properties = {
   itemLayer          : doc.layers.itemByName("frames"),
-  appliedObjectStyle : doc.objectStyles.itemByName("accent1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("accent_100"),
   geometricBounds    : [y1, CALENDAR_X1, y1, CALENDAR_X2]
 }
 

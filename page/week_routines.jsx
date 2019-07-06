@@ -177,7 +177,7 @@ const STROKE_WEIGHT_UNIT = 0.5 / 6; // 0p0.5, there are 6 points in a pica
 const FRAME_WEIGHT = STROKE_WEIGHT_UNIT * // width of a frame line, outside
   doc.objectStyles.itemByName("outer_frame").strokeWeight; // of element
 const ACCENT_WEIGHT = STROKE_WEIGHT_UNIT * // width of an accent line,
-  doc.objectStyles.itemByName("accent1").strokeWeight; // inside of element
+  doc.objectStyles.itemByName("accent_100").strokeWeight; // inside of element
 
 // bounds for the entire layout, including frames
 const X1 = pg.bounds[1] + 2 * HOLES_XMARGIN + HOLES_DIAMETER;
@@ -261,7 +261,7 @@ for (var routine_i = NIGHT_ROUTINES.length - 1; routine_i >= 0;
                            : pg.graphicLines.itemByName(accent_search);
       accent_line.properties = {
         itemLayer          : doc.layers.itemByName("frames"),
-        appliedObjectStyle : doc.objectStyles.itemByName("accent2"),
+        appliedObjectStyle : doc.objectStyles.itemByName("accent_25"),
         geometricBounds    : [ y2, X1 + FRAME_WEIGHT,
                                y2, X2 - FRAME_WEIGHT ]
       }
@@ -277,7 +277,7 @@ var accent_line = (pg.graphicLines.itemByName(accent_search) == null)
                      : pg.graphicLines.itemByName(accent_search);
 accent_line.properties = {
   itemLayer          : doc.layers.itemByName("frames"),
-  appliedObjectStyle : doc.objectStyles.itemByName("accent1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("accent_100"),
   geometricBounds    : [ y2, X1 + FRAME_WEIGHT,
                          y2, X2 - FRAME_WEIGHT ]
 }
@@ -311,7 +311,7 @@ for (var routine_i = DAY_ROUTINES.length - 1; routine_i >= 0;
                            : pg.graphicLines.itemByName(accent_search);
       accent_line.properties = {
         itemLayer          : doc.layers.itemByName("frames"),
-        appliedObjectStyle : doc.objectStyles.itemByName("accent2"),
+        appliedObjectStyle : doc.objectStyles.itemByName("accent_25"),
         geometricBounds    : [ y2, X1 + FRAME_WEIGHT,
                                y2, X2 - FRAME_WEIGHT ]
       }
@@ -327,7 +327,7 @@ var accent_line = (pg.graphicLines.itemByName(accent_search) == null)
                      : pg.graphicLines.itemByName(accent_search);
 accent_line.properties = {
   itemLayer          : doc.layers.itemByName("frames"),
-  appliedObjectStyle : doc.objectStyles.itemByName("accent1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("accent_100"),
   geometricBounds    : [ y2, X1 + FRAME_WEIGHT,
                          y2, X2 - FRAME_WEIGHT ]
 }
@@ -361,7 +361,7 @@ for (var routine_i = MORNING_ROUTINES.length - 1; routine_i >= 0;
                            : pg.graphicLines.itemByName(accent_search);
       accent_line.properties = {
         itemLayer          : doc.layers.itemByName("frames"),
-        appliedObjectStyle : doc.objectStyles.itemByName("accent2"),
+        appliedObjectStyle : doc.objectStyles.itemByName("accent_25"),
         geometricBounds    : [ y2, X1 + FRAME_WEIGHT,
                                y2, X2 - FRAME_WEIGHT ]
       }
@@ -377,7 +377,7 @@ var accent_line = (pg.graphicLines.itemByName(accent_search) == null)
                      : pg.graphicLines.itemByName(accent_search);
 accent_line.properties = {
   itemLayer          : doc.layers.itemByName("frames"),
-  appliedObjectStyle : doc.objectStyles.itemByName("accent1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("accent_100"),
   geometricBounds    : [ y2, X1 + FRAME_WEIGHT,
                          y2, X2 - FRAME_WEIGHT ]
 }
@@ -405,7 +405,7 @@ for (var day_i = 6; day_i >= 0; day_i--) {
                : pg.textFrames.itemByName(day_search);
   day_box.properties = {
     itemLayer          : doc.layers.itemByName("routines"),
-    appliedObjectStyle : doc.objectStyles.itemByName("obj_heading1"),
+    appliedObjectStyle : doc.objectStyles.itemByName("obj_head_bottom"),
     geometricBounds    : [ y1, x1, y2, x2 ],
     contents           : day(day_i)
   }
@@ -422,7 +422,7 @@ var routines_box = (pg.textFrames.itemByName("routines") == null)
                       : pg.textFrames.itemByName("routines");
 routines_box.properties = {
   itemLayer          : doc.layers.itemByName("routines"),
-  appliedObjectStyle : doc.objectStyles.itemByName("obj_heading1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("obj_head_bottom"),
   geometricBounds    : [ y1, x1, y2, x2 ],
   contents           : "routines"
 }
@@ -444,7 +444,7 @@ var accent_line = (pg.graphicLines.itemByName(accent_search) == null)
                      : pg.graphicLines.itemByName(accent_search);
 accent_line.properties = {
   itemLayer          : doc.layers.itemByName("frames"),
-  appliedObjectStyle : doc.objectStyles.itemByName("accent1"),
+  appliedObjectStyle : doc.objectStyles.itemByName("accent_100"),
   geometricBounds    : [ y1 + TXT_BOX_DIMENSIONS, x2,
                          y2,                      x2 ]
 }
@@ -456,7 +456,7 @@ for (var day_i = 0; day_i < 7; day_i++) {
                        : pg.graphicLines.itemByName(accent_search);
   accent_line.properties = {
     itemLayer          : doc.layers.itemByName("frames"),
-    appliedObjectStyle : doc.objectStyles.itemByName("accent2"),
+    appliedObjectStyle : doc.objectStyles.itemByName("accent_25"),
     geometricBounds    : [ y1, x2, y2, x2 ]
   }
 

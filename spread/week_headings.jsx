@@ -19,6 +19,10 @@
  *   doc/object_styles.jsx
  */
 
+var doc    = app.activeDocument;
+var spread = app.layoutWindows.item(0).activeSpread;
+var page   = null;
+
 /* this function calculates the number of weeks between the 1st of the year
  * in which ref resides and the Date ref.
  * precondition: ref is a valid Date object
@@ -97,40 +101,39 @@ function week_dates() {
  *     - marginals
  *   - object styles
  *     - week_num
- *     - date_range
+ *     - top_nobind_margin
  */
 function add_to(pg, on_doc) {
-  const txt_box_height = 1; // 1p0
+  const TXT_BOX_DIMENSIONS = 1; // 1p0
 
   const week_str = "week " + week_num_in_year();
-  var week_box = (pg.textFrames.itemByName("week_num") == null)
-                    ? pg.textFrames.add()
-                    : pg.textFrames.itemByName("week_num");
+  var week_box = (pg.textFrames.itemByName("week_num") != null)
+    ? pg.textFrames.itemByName("week_num")
+    : pg.textFrames.add({ name : "week_num" });
   week_box.properties = {
-    name               : "week_num",
     itemLayer          : on_doc.layers.itemByName("marginals"),
-    appliedObjectStyle : on_doc.objectStyles.itemByName("week_num"),
+    appliedObjectStyle : on_doc.objectStyles.itemByName("top_bind_margin"),
     contents           : week_str
   };
 
   const date_range_str = week_dates();
   var date_range_box = (pg.textFrames.itemByName("date_range") == null)
-                          ? pg.textFrames.add()
-                          : pg.textFrames.itemByName("date_range");
+    ? pg.textFrames.itemByName("date_range");
+    : pg.textFrames.add({ name : "date_range" })
   date_range_box.properties = {
-    name               : "date_range",
     itemLayer          : on_doc.layers.itemByName("marginals"),
-    appliedObjectStyle : on_doc.objectStyles.itemByName("date_range"),
+    appliedObjectStyle :
+      on_doc.objectStyles.itemByName("top_nobind_margin"),
     contents           : date_range_str,
   };
 
   const left_box  = [ pg.bounds[0],                       // y1
                       pg.bounds[1],                       // x1
-                      pg.bounds[0] + txt_box_height,      // y2
+                      pg.bounds[0] + TXT_BOX_DIMENSIONS,      // y2
                      (pg.bounds[3] + pg.bounds[1]) / 2 ]; // x2
   const right_box = [ pg.bounds[0],                       // y1
                      (pg.bounds[3] + pg.bounds[1]) / 2,   // x1
-                      pg.bounds[0] + txt_box_height,      // y2
+                      pg.bounds[0] + TXT_BOX_DIMENSIONS,      // y2
                       pg.bounds[3] ];                     // x2
   if (pg.side == PageSideOptions.LEFT_HAND) {
     week_box.geometricBounds       = right_box;
@@ -140,10 +143,6 @@ function add_to(pg, on_doc) {
     week_box.geometricBounds       = left_box;
   }
 }
-
-var doc    = app.activeDocument;
-var spread = app.layoutWindows.item(0).activeSpread;
-var page   = null;
 
 for (var pg_index = 0; pg_index < spread.pages.length; pg_index++) {
   page = spread.pages.item(pg_index);

@@ -26,11 +26,10 @@ var doc = app.activeDocument;
 
 // if the paragraph style doesn't exist, add it
 var body = (doc.paragraphStyles.itemByName("body") != null)
-              ? doc.paragraphStyles.itemByName("body")
-              : doc.paragraphStyles.add();
+  ? doc.paragraphStyles.itemByName("body")
+  : doc.paragraphStyles.add({ name : "body" });
 // update the paragraph style's properties
 body.properties = {
-  name          : "body",
   appliedFont   : font,
   fillColor     : doc.colors.itemByName("smoky_black"),
   fillTint      : 100,
@@ -41,9 +40,8 @@ body.properties = {
 
 var obj = (doc.paragraphStyles.itemByName("obj") != null)
              ? doc.paragraphStyles.itemByName("obj")
-             : doc.paragraphStyles.add();
+             : doc.paragraphStyles.add({ name : "obj" });
 obj.properties = {
-  name          : "obj",
   basedOn       : body,
   justification : Justification.CENTER_ALIGN,
   pointSize     : 8
@@ -51,27 +49,24 @@ obj.properties = {
 
 var body_heading = (doc.paragraphStyles.itemByName("body_heading") != null)
                       ? doc.paragraphStyles.itemByName("body_heading")
-                      : doc.paragraphStyles.add();
+                      : doc.paragraphStyles.add({ name : "body_heading" });
 body_heading.properties = {
-  name      : "body_heading",
   basedOn   : body,
   fontStyle : "Semibold"
 };
 
 var obj_heading = (doc.paragraphStyles.itemByName("obj_heading") != null)
                      ? doc.paragraphStyles.itemByName("obj_heading")
-                     : doc.paragraphStyles.add();
+                     : doc.paragraphStyles.add({ name : "obj_heading" });
 obj_heading.properties = {
-  name      : "obj_heading",
   basedOn   : obj,
   fontStyle : "Semibold"
 };
 
 var marginals = (doc.paragraphStyles.itemByName("marginals") != null)
                    ? doc.paragraphStyles.itemByName("marginals")
-                   : doc.paragraphStyles.add();
+                   : doc.paragraphStyles.add({ name : "marginals" });
 marginals.properties = {
-  name      : "marginals",
   basedOn   : body,
   fillTint  : 15,
   pointSize : 8
@@ -80,9 +75,8 @@ marginals.properties = {
 var marginal_bind =
     (doc.paragraphStyles.itemByName("marginal_bind") != null)
        ? doc.paragraphStyles.itemByName("marginal_bind")
-       : doc.paragraphStyles.add();
+       : doc.paragraphStyles.add({ name : "marginal_bind" });
 marginal_bind.properties = {
-  name          : "marginal_bind",
   basedOn       : marginals,
   justification : Justification.TO_BINDING_SIDE
 };
@@ -90,9 +84,8 @@ marginal_bind.properties = {
 var marginal_nobind =
     (doc.paragraphStyles.itemByName("marginal_nobind") != null)
        ? doc.paragraphStyles.itemByName("marginal_nobind")
-       : doc.paragraphStyles.add();
+       : doc.paragraphStyles.add({ name : "marginal_nobind" });
 marginal_nobind.properties = {
-  name          : "marginal_nobind",
   basedOn       : marginals,
   justification : Justification.AWAY_FROM_BINDING_SIDE
 };

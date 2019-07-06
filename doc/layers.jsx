@@ -5,9 +5,13 @@
  * this planner, created in Adobe Indesign CS5.5
  * current layers, from front to back:
  *   frames
+ *   side_notes
+ *     items on this layer are mostly created by hand
  *   calendar
- *   holes
+ *   routines
+ *   body
  *   marginals (headers/footers)
+ *   holes
  */
 
 var doc = app.activeDocument;
@@ -28,6 +32,9 @@ if (doc.layers.itemByName("routines") == null)
 
 if (doc.layers.itemByName("calendar") == null)
   doc.layers.add({ name : "calendar" });
+
+if (doc.layers.itemByName("side_notes") == null)
+  doc.layers.add({ name : "side_notes" });
 
 if (doc.layers.itemByName("frames") == null)
   doc.layers.add({ name : "frames" });

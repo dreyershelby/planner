@@ -12,9 +12,9 @@
  * available text object styles:
  *   base (default/no style)
  *   body
- *   pg num
- *   week num
- *   date range
+ *   bottom_nobind_margin
+ *   top_bind_margin
+ *   top_nobind_margin
  *   obj heading
  *   obj (body)
  *
@@ -30,14 +30,12 @@ const TXT_BOX_DIMENSIONS = 1; // 1p0
 
 // if the object style doesn't exist, add it
 var base = (doc.objectStyles.itemByName("base") != null)
-              ? doc.objectStyles.itemByName("base")
-              : doc.objectStyles.add();
+  ? doc.objectStyles.itemByName("base")
+  : doc.objectStyles.add({ name : "base" });
 // update the object style's properties
 // the basedOn property does not work for object styles, so we make do with
 // base_prop
 var base_prop = base.properties = {
-  name : "base",
-
   enableFill                    : true,
   enableParagraphStyle          : true,
   enableStrokeAndCornerOptions  : true,
@@ -54,92 +52,103 @@ var base_prop = base.properties = {
 };
 
 var body = (doc.objectStyles.itemByName("body") != null)
-              ? doc.objectStyles.itemByName("body")
-              : doc.objectStyles.add();
+  ? doc.objectStyles.itemByName("body")
+  : doc.objectStyles.add({ name : "body" });
 // body.basedOn = base
 body.properties = base_prop;
 body.properties = {
-  name                  : "body",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("body"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
 
-var pg_num = (doc.objectStyles.itemByName("pg_num") != null)
-                ? doc.objectStyles.itemByName("pg_num")
-                : doc.objectStyles.add();
-// pg_num.basedOn = base
-pg_num.properties = base_prop;
-pg_num.properties = {
-  name                  : "pg_num",
+var bottom_nobind_margin =
+  (doc.objectStyles.itemByName("bottom_nobind_margin") != null)
+    ? doc.objectStyles.itemByName("bottom_nobind_margin")
+    : doc.objectStyles.add({ name : "bottom_nobind_margin" });
+// bottom_nobind_margin.basedOn = base
+bottom_nobind_margin.properties = base_prop;
+bottom_nobind_margin.properties = {
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_nobind"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.BOTTOM_ALIGN
   }
 };
 
-var week_num = (doc.objectStyles.itemByName("week_num") != null)
-                  ? doc.objectStyles.itemByName("week_num")
-                  : doc.objectStyles.add();
-// week_num.basedOn = base
-week_num.properties = base_prop;
-week_num.properties = {
-  name                  : "week_num",
+var top_bind_margin =
+  (doc.objectStyles.itemByName("top_bind_margin") != null)
+    ? doc.objectStyles.itemByName("top_bind_margin")
+    : doc.objectStyles.add({ name : "top_bind_margin" });
+// top_bind_margin.basedOn = base
+top_bind_margin.properties = base_prop;
+top_bind_margin.properties = {
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_bind"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
 
-var date_range = (doc.objectStyles.itemByName("date_range") != null)
-                    ? doc.objectStyles.itemByName("date_range")
-                    : doc.objectStyles.add();
-// date_range.basedOn = base
-date_range.properties = base_prop;
-date_range.properties = {
-  name                  : "date_range",
+var top_nobind_margin =
+  (doc.objectStyles.itemByName("top_nobind_margin") != null)
+    ? doc.objectStyles.itemByName("top_nobind_margin")
+    : doc.objectStyles.add({ name : "top_nobind_margin" });
+// top_nobind_margin.basedOn = base
+top_nobind_margin.properties = base_prop;
+top_nobind_margin.properties = {
   appliedParagraphStyle : doc.paragraphStyles.itemByName("marginal_nobind"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.TOP_ALIGN
   }
 };
 
-var obj_heading1 = (doc.objectStyles.itemByName("obj_heading1") != null)
-                     ? doc.objectStyles.itemByName("obj_heading1")
-                     : doc.objectStyles.add();
-// obj_heading1.basedOn = base
-obj_heading1.properties = base_prop;
-obj_heading1.properties = {
-  name                  : "obj_heading1",
-  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
-  textFramePreferences  : {
-    verticalJustification : VerticalJustification.BOTTOM_ALIGN,
-    insetSpacing : 0.12 * TXT_BOX_DIMENSIONS
-  }
-}
-
-var obj_heading2 = (doc.objectStyles.itemByName("obj_heading2") != null)
-                     ? doc.objectStyles.itemByName("obj_heading2")
-                     : doc.objectStyles.add();
-// obj_heading2.basedOn = base
-obj_heading2.properties = base_prop;
-obj_heading2.properties = {
-  name                  : "obj_heading2",
+var obj_head_top = (doc.objectStyles.itemByName("obj_head_top") != null)
+  ? doc.objectStyles.itemByName("obj_head_top")
+  : doc.objectStyles.add({ name : "obj_head_top" });
+// obj_head_top.basedOn = base
+obj_head_top.properties = base_prop;
+obj_head_top.properties = {
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.TOP_ALIGN,
     insetSpacing : 0.12 * TXT_BOX_DIMENSIONS
   }
-}
+};
+
+var obj_head_bottom =
+  (doc.objectStyles.itemByName("obj_head_bottom") != null)
+    ? doc.objectStyles.itemByName("obj_head_bottom")
+    : doc.objectStyles.add({ name : "obj_head_bottom" });
+// obj_head_bottom.basedOn = base
+obj_head_bottom.properties = base_prop;
+obj_head_bottom.properties = {
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
+  textFramePreferences  : {
+    verticalJustification : VerticalJustification.BOTTOM_ALIGN,
+    insetSpacing : 0.12 * TXT_BOX_DIMENSIONS
+  }
+};
+
+var obj_head_center =
+  (doc.objectStyles.itemByName("obj_head_center") != null)
+    ? doc.objectStyles.itemByName("obj_head_center")
+    : doc.objectStyles.add({ name : "obj_head_center" });
+// obj_head_center.basedOn = base
+obj_head_center.properties = base_prop;
+obj_head_center.properties = {
+  appliedParagraphStyle : doc.paragraphStyles.itemByName("obj_heading"),
+  textFramePreferences  : {
+    verticalJustification : VerticalJustification.CENTER_ALIGN,
+    insetSpacing : 0.12 * TXT_BOX_DIMENSIONS
+  }
+};
 
 var obj = (doc.objectStyles.itemByName("obj") != null)
-             ? doc.objectStyles.itemByName("obj")
-             : doc.objectStyles.add();
+  ? doc.objectStyles.itemByName("obj")
+  : doc.objectStyles.add({ name : "obj" });
 // obj.basedOn = base
 obj.properties = base_prop;
 obj.properties = {
-  name                  : "obj",
   appliedParagraphStyle : doc.paragraphStyles.itemByName("obj"),
   textFramePreferences  : {
     verticalJustification : VerticalJustification.CENTER_ALIGN,
@@ -150,39 +159,35 @@ obj.properties = {
 // rectangles
 
 var frame = (doc.objectStyles.itemByName("frame") != null)
-              ? doc.objectStyles.itemByName("frame")
-              : doc.objectStyles.add();
+  ? doc.objectStyles.itemByName("frame")
+  : doc.objectStyles.add({ name : "frame" });
 var frame_prop = frame.properties = {
-  name         : "frame",
   fillColor    : doc.swatches.item("None"),
   strokeColor  : doc.colors.itemByName("toledo_purple")
-}
+};
 
 var outer_frame = (doc.objectStyles.itemByName("outer_frame") != null)
-                    ? doc.objectStyles.itemByName("outer_frame")
-                    : doc.objectStyles.add();
+  ? doc.objectStyles.itemByName("outer_frame")
+  : doc.objectStyles.add({ name : "outer_frame" });
 // outer_frame.basedOn = frame
 outer_frame.properties = frame_prop;
 outer_frame.properties = {
-  name         : "outer_frame",
   strokeWeight : 2
-}
+};
 
-var accent1 = (doc.objectStyles.itemByName("accent1") != null)
-                ? doc.objectStyles.itemByName("accent1")
-                : doc.objectStyles.add();
-var accent1_prop = accent1.properties = {
-  name         : "accent1",
+var accent_100 = (doc.objectStyles.itemByName("accent_100") != null)
+  ? doc.objectStyles.itemByName("accent_100")
+  : doc.objectStyles.add({ name : "accent_100" });
+var accent_100_prop = accent_100.properties = {
   strokeColor  : doc.colors.itemByName("toledo_purple"),
   strokeWeight : 1
-}
+};
 
-var accent2 = (doc.objectStyles.itemByName("accent2") != null)
-                ? doc.objectStyles.itemByName("accent2")
-                : doc.objectStyles.add();
-// accent2.basedOn = accent1;
-accent2.properties = accent1_prop;
-accent2.properties = {
-  name         : "accent2",
+var accent_25 = (doc.objectStyles.itemByName("accent_25") != null)
+  ? doc.objectStyles.itemByName("accent_25")
+  : doc.objectStyles.add({ name : "accent_25" });
+// accent_25.basedOn = accent_100;
+accent_25.properties = accent_100_prop;
+accent_25.properties = {
   strokeTint   : 25
-}
+};

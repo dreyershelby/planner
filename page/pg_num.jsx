@@ -14,11 +14,12 @@ function add_to(pg, on_doc) {
 
   // create the textbox for the page number at the very bottom of the page,
   // taking up its width, with a height of TXT_BOX_HEIGHT
-  var txtbox = (pg.textFrames.itemByName("pg_num") == null)
-    ? pg.textFrames.add({ name : "pg_num" })
-    : pg.textFrames.itemByName("pg_num");
+  var txtbox = (pg.textFrames.itemByName("pg_num") != null)
+    ? pg.textFrames.itemByName("pg_num")
+    : pg.textFrames.add({ name : "pg_num" });
   txtbox.properties = {
-    appliedObjectStyle : doc.objectStyles.itemByName("pg_num"),
+    appliedObjectStyle :
+      doc.objectStyles.itemByName("bottom_nobind_margin"),
     itemLayer          : doc.layers.itemByName("marginals"),
     geometricBounds // : [ y1, x1, y2, x2 ]
                     // : [ TXT_BOX_HEIGHT above the bottom of the page,
